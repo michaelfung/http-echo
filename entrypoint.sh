@@ -4,6 +4,10 @@
 # $1 is our command
 CMD=$1
 
+# set current dir
+cd /app
+
+# set stable perl env
 source /opt/perlbrew/etc/bashrc
 perlbrew use 5.22.0-1.001
 
@@ -11,7 +15,6 @@ perlbrew use 5.22.0-1.001
 export HTTP_EHCO_PORT
 export MOJO_MAX_MESSAGE_SIZE=16384   # default is 10485760 (10MB)
 export MOJO_MAX_WEBSOCKET_SIZE=8192
-
 
 case "$CMD" in
   "dev" )
