@@ -1,0 +1,67 @@
+{
+  "kind": "Deployment",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "http-echo",
+    "namespace": "default",
+    "selfLink": "/apis/extensions/v1beta1/namespaces/default/deployments/http-echo",
+    "uid": "257c1135-90a5-11e8-8315-001517c05e98",
+    "resourceVersion": "61554",
+    "generation": 3,
+    "creationTimestamp": "2018-07-26T07:26:00Z",
+    "labels": {
+      "run": "http-echo"
+    },
+    "annotations": {
+      "deployment.kubernetes.io/revision": "1"
+    }
+  },
+  "spec": {
+    "replicas": 6,
+    "selector": {
+      "matchLabels": {
+        "run": "http-echo"
+      }
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "run": "http-echo"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "http-echo",
+            "image": "http-echo:latest",
+            "ports": [
+              {
+                "containerPort": 3000,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {},
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "securityContext": {},
+        "schedulerName": "default-scheduler"
+      }
+    },
+    "strategy": {
+      "type": "RollingUpdate",
+      "rollingUpdate": {
+        "maxUnavailable": "25%",
+        "maxSurge": "25%"
+      }
+    },
+    "revisionHistoryLimit": 2,
+    "progressDeadlineSeconds": 600
+  }
+}
