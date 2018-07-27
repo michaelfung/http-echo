@@ -38,7 +38,7 @@ The `--command` option is confusing.
 Deploy with 6 forked workers in a container:
 
     # "fork" is default command and can be omited here
-    kubectl run http-echo  --image=http-echo:v1 --image-pull-policy=IfNotPresent \
+    kubectl run http-echo  --image=http-echo:v5 --image-pull-policy=IfNotPresent \
       --env "HTTP_ECHO_PROCS=6" --port=3000 -- fork
 
     kubectl expose deployment http-echo # optional: --type=NodePort
@@ -48,7 +48,7 @@ Deploy with 6 forked workers in a container:
 
 Create a developement mode deployment:
 
-    kubectl run http-echo-dev  --image=http-echo:v1 --image-pull-policy=IfNotPresent \
+    kubectl run http-echo-dev  --image=http-echo:v2 --image-pull-policy=IfNotPresent \
       --port=3000 -- dev
 
     kubectl expose deployment http-echo-dev # optional: --type=NodePort
