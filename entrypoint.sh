@@ -1,6 +1,6 @@
 #!/bin/bash
 # $0 is a script name,
-# $1, $2, $3 etc are passed arguments
+# $1, $2, $3 , ...etc are passed arguments
 # $1 is our command
 CMD=$1
 
@@ -14,29 +14,22 @@ perlbrew use 5.22.0-1.001
 # set Mojo params:
 export MOJO_MAX_MESSAGE_SIZE=16384   # default is 10485760 (10MB)
 export MOJO_MAX_WEBSOCKET_SIZE=8192
+export MOJO_MODE
 
-# set default forked process count
-FORKS=${HTTP_ECHO_PROCS:=2}  # default to 2 if not set
+# set default forked process count to 2
+FORKS=${HTTP_ECHO_PROCS:=2}
 
-# set default listen port
+# set default listen port to 3000
 LISTEN_PORT=${HTTP_ECHO_PORT:=3000}
 
 case "$CMD" in
-  "dev" )
-    export MOJO_MODE=development
-    exec /usr/bin/env perl ./http-echo.pl daemon -l "http://0.0.0.0:${LISTEN_PORT}"
+  "fork" )
+    exec /usr/bin/env perl ./http-echo.pl prefork -w ${FORKS} -l "http://[::]:${LISTEN_PORT}"
     ;;
 
   "single" )
-    # we can modify files here, using ENV variables passed in
-    # "docker create" command. It can't be done during build process.
     export MOJO_MODE=production
-    exec /usr/bin/env perl ./http-echo.pl daemon -l "http://0.0.0.0:${LISTEN_PORT}"
-    ;;
-
-  "fork" )
-    export MOJO_MODE=production
-    exec /usr/bin/env perl ./http-echo.pl prefork -w ${FORKS} -l "http://0.0.0.0:${LISTEN_PORT}"
+    exec /usr/bin/env perl ./http-echo.pl daemon -l "http://[::]:${LISTEN_PORT}"
     ;;
 
    * )
