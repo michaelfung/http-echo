@@ -24,12 +24,11 @@ LISTEN_PORT=${HTTP_ECHO_PORT:=3000}
 
 case "$CMD" in
   "fork" )
-    exec /usr/bin/env perl ./http-echo.pl prefork -w ${FORKS} -l "http://[::]:${LISTEN_PORT}"
+    exec /usr/bin/env perl ./http-echo.pl prefork -w ${FORKS} -l "http://*:${LISTEN_PORT}"
     ;;
 
   "single" )
-    export MOJO_MODE=production
-    exec /usr/bin/env perl ./http-echo.pl daemon -l "http://[::]:${LISTEN_PORT}"
+    exec /usr/bin/env perl ./http-echo.pl daemon -l "http://*:${LISTEN_PORT}"
     ;;
 
    * )
